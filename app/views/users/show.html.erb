@@ -1,4 +1,4 @@
-<div class="container" style="padding-top: 20px">
+<div class="container" style="padding-top: 20px;">
 
 <%= render 'layouts/postmodal' %>
 
@@ -8,8 +8,8 @@
                 <p class="lead">Management</p>
                 <div class="list-group">
                     <a href="" class="list-group-item" data-toggle="modal" data-target="#myModalCreateItem">Post item</a>
-                    <a href="#" class="list-group-item">Category 2</a>
-                    <a href="#" class="list-group-item">Category 3</a>
+                    <a href="" class="list-group-item groupSwitch" tagName="allItemAndHashcodeInCaseOfSameGroupName">All Items</a>
+                    <a href="" class="list-group-item">Category 3</a>
                 </div>
                 <hr>
                 <p class="lead">Joined Groups</p>
@@ -38,9 +38,61 @@
 
             <% all_groups.each do |g| %>
             <div class="col-md-9 groupPage" style="display: none;" tagName="<%= g.name %>">
-                <h1><%= g.name %></h1>
+                <h1 style="text-align: center; margin-top: 0;"><%= g.name %></h1>
+                <hr>
+                <% g.items.each do |i| %>
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+                        <div class="thumbnail">
+                            <img src="http://placehold.it/320x150" alt="">
+                            <div class="caption">
+                                <h4 class="pull-right"><%= i.price %>$</h4>
+                                <h4><a href="#"><%= i.title %></a>
+                                </h4>
+                                <p><%= i.description %></p>
+                            </div>
+                            <div class="ratings">
+                                <p class="pull-right">15 reviews</p>
+                                <p>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                <% end %>
             </div>
             <% end %>
+
+            <div class="col-md-9 groupPage" style="display: ;"  tagName="allItemAndHashcodeInCaseOfSameGroupName">
+                <h1 style="text-align: center; margin-top: 0;">All items</h1>
+                <hr>
+                <% current_user.items.each do |i| %>
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+                        <div class="thumbnail">
+                            <img src="http://placehold.it/320x150" alt="">
+                            <div class="caption">
+                                <h4 class="pull-right"><%= i.price %>$</h4>
+                                <h4><a href="#"><%= i.title %></a>
+                                </h4>
+                                <p><%= i.description %></p>
+                            </div>
+                            <div class="ratings">
+                                <p class="pull-right">15 reviews</p>
+                                <p>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
 
             <script type="text/javascript">
                 $(".groupSwitch").on('click', toggleGroupPage)

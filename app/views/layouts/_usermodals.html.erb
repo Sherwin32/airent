@@ -1,0 +1,91 @@
+<!-- Modal for sign up -->
+      <div class="modal fade" id="myModalSignUp" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+          <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close"
+                   data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">
+                    Sign Up Form
+                </h4>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <%= form_with scope: :user, url: sign_up_path, method: "post" do |f| %>
+                <div>
+                  <%= f.text_field :user_name, placeholder: "Username", :required => true, :minlength => 4, :maxlength => 20, :autofocus => true %>
+                </div>
+                <div>
+                  <%= f.text_field :email, placeholder: "Email", style: "margin-top: 2%;", :required => true, :type => "email" %>
+                </div>
+                <div>
+                  <%= f.text_field :phone, placeholder: "Phone", style: "margin-top: 2%;" %>
+                </div>
+                <div>
+                  <%= f.password_field :password, placeholder: "Password", style: "margin-top: 2%;", :required => true, :minlength => 4, :maxlength => 20 %>
+                </div>
+                <%= f.submit "Sign up", :class => "btn btn-default" %>
+                <%end%>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                            Close
+                </button>
+            </div>
+          </div>
+        </div>
+      </div>
+<!-- 
+      <script>
+      $(document).ready(function() {
+          $('#signUpForm').formValidation();
+      });
+      </script> -->
+
+      <!-- Modal for sign in -->
+    <div class="modal fade" id="myModalSignIn" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+        <!-- Modal Header -->
+          <div class="modal-header">
+              <button type="button" class="close"
+                 data-dismiss="modal">
+                     <span aria-hidden="true">&times;</span>
+                     <span class="sr-only">Close</span>
+              </button>
+              <h4 class="modal-title" id="myModalLabel">
+                  Sign In
+              </h4>
+          </div>
+
+          <!-- Modal Body -->
+          <div class="modal-body">
+              <%= form_with scope: :user, url: login_path, method: "post" do |f| %>
+              <div>
+                <%= f.text_field :user_name, placeholder: "Username" %>
+              </div>
+              <div>
+                <%= f.password_field :password, placeholder: "Password", style: "margin-top: 2%;" %>
+              </div>
+              <%= f.submit "Log In", :class => "btn btn-default"%>
+              <%end%>
+          </div>
+
+          <!-- Modal Footer -->
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default"
+                      data-dismiss="modal">
+                          Close
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>

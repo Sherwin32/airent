@@ -41,11 +41,13 @@
                 <h1 style="text-align: center; margin-top: 0;"><%= g.name %></h1>
                 <hr>
                 <% g.items.each do |i| %>
+
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
-                            <img src="http://placehold.it/320x150" alt="">
+                            <!-- <img src="http://placehold.it/320x150" alt=""> -->
+                            <%= image_tag attachment_url(i, :post_image, :fill, 320, 150, format: "jpg") %>
                             <div class="caption">
-                                <h4 class="pull-right"><%= i.price %>$</h4>
+                                <h4 class="pull-right">$<%= i.price %> /day</h4>
                                 <h4><a href="#"><%= i.title %></a>
                                 </h4>
                                 <p><%= i.description %></p>
@@ -72,9 +74,10 @@
                 <% current_user.items.each do |i| %>
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
-                            <img src="http://placehold.it/320x150" alt="">
+                            <!-- <img src="http://placehold.it/320x150" alt=""> -->
+                            <%= image_tag attachment_url(i, :post_image, :fill, 320, 150, format: "jpg") %>
                             <div class="caption">
-                                <h4 class="pull-right"><%= i.price %>$</h4>
+                                <h4 class="pull-right">$<%= i.price %> /day</h4>
                                 <h4><a href="#"><%= i.title %></a>
                                 </h4>
                                 <p><%= i.description %></p>

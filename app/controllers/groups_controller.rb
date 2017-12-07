@@ -7,7 +7,7 @@ class GroupsController < ApplicationController
 	end
 
 	def create
-		if Group.find_by({:name => group_params[:name]}) != nil
+	if Group.find_by({:name => group_params[:name]}) != nil
       flash[:error] = "Group name already exists. Please try again"
     else
       @group = Group.new(group_params)

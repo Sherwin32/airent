@@ -17,7 +17,7 @@
             <!-- Modal Body left -->
             <div class="row">
             <div class="modal-body col-md-6" style="padding: 30px;">
-                <%= form_with scope: :item, url: create_item_path, method: "post" do |f| %>
+                <%= form_for :item, url: create_item_path, method: "post" do |f| %>
                 <div>
                   <%= f.text_field :title, placeholder: "Title", :required => true, :minlength => 3, :maxlength => 30, :autofocus => true %>
                 </div>
@@ -25,14 +25,16 @@
                   <%= f.text_area :description, placeholder: "Description of your item", style: "margin-top: 2%;", :required => true %>
                 </div>
                 <div>
-                  <%= f.text_field :price, placeholder: "type in price", style: "margin-top: 1%;", :required => true %>
+                  <%= f.text_field :price, placeholder: "Price per day", style: "margin-top: 1%;", :required => true %>
                 </div>
                 <div style="margin-top: 2%;">
                 <%= f.select :group_target, options_for_select(all_groups.collect{ |g| [g.name, g.id] }), :required => true %>
                 </div>
             </div>
             <div class="modal-body col-md-6" style="padding: 30px;">
-              <h1>Upload image here</h1>
+              <%= f.label :post_image, "Upload Picture" %>
+              <%= f.file_field :post_image, :required => true %>
+              <!-- <h1>Upload image here</h1> -->
             </div>
             </div>
 

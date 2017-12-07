@@ -15,4 +15,6 @@ Rails.application.routes.draw do
 	post '/group/join', to: 'groups#join', as: 'join_group'
 	get '/group/test', to: 'groups#test_get_groups'
 
+	post '/item/create', to: 'items#create', as: 'create_item'
+
 end

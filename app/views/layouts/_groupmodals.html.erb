@@ -18,7 +18,7 @@
             <div class="modal-body">
                 <%= form_with scope: :group, url: create_group_path, method: "post" do |f| %>
                 <div>
-                  <%= f.text_field :name, placeholder: "Group name", :required => true, :minlength => 4, :maxlength => 30, :autofocus => true %>
+                  <%= f.text_field :name, placeholder: "Group name", :required => true, :minlength => 2, :maxlength => 30, :autofocus => true %>
                 </div>
                 <div>
                   <%= f.text_field :passcode, placeholder: "passcode for people to join", style: "margin-top: 2%;", :required => true %>

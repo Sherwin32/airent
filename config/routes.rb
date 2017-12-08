@@ -13,7 +13,8 @@ Rails.application.routes.draw do
 
 	post '/group/create', to: 'groups#create', as: 'create_group'
 	post '/group/join', to: 'groups#join', as: 'join_group'
-	get '/group/test', to: 'groups#test_get_groups'
+	get '/group/:group_id', to: 'groups#show', as: 'show_group'
+	delete '/group/destroy/:group_id', to: 'groups#destroy', as: 'destroy_group'
 
 	post '/item/create', to: 'items#create', as: 'create_item'
 

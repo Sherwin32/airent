@@ -5,6 +5,9 @@
         <div class="row">
 
             <div class="col-md-3">
+            <a href="#" class="btn btn-block btn-success"><span class="glyphicon glyphicon-ok"></span> Available!</a>
+            <a href="#" class="btn btn-block btn-danger"><span class="glyphicon glyphicon-minus"></span> Request pending. Unsubscribe?</a>
+            <a href="#" class="btn btn-block btn-success"><span class="glyphicon glyphicon-usd"></span> Someone's interested!</a>
                 <p class="lead">Management</p>
                 <div class="list-group">
                     <a href="" class="list-group-item" data-toggle="modal" data-target="#myModalCreateItem">Post item</a>
@@ -38,7 +41,11 @@
 
             <% all_groups.each do |g| %>
             <div class="col-md-9 groupPage" style="display: none;" tagName="<%= g.name %>">
-                <h1 style="text-align: center; margin-top: 0;"><%= g.name %></h1>
+                <h1 style="text-align: center; margin-top: 0;"><%= g.name %>
+                <%= link_to show_group_path(:group_id => g.id), controller: 'groups', action: 'show', method: :get do %>
+                  <span class="glyphicon glyphicon-cog toolBtn" title = "Manage Group"> </span>
+                <% end %>
+                </h1>
                 <hr>
                 <% g.items.each do |i| %>
 
@@ -50,7 +57,7 @@
                                 <h4 class="pull-right">$<%= i.price %> /day</h4>
                                 <h4><a href="#"><%= i.title %></a>
                                 </h4>
-                                <p><%= i.description %></p>
+                                <p class="descriptionContent"><%= i.description %></p>
                             </div>
                             <div class="ratings">
                                 <p class="pull-right">15 reviews</p>
@@ -80,7 +87,7 @@
                                 <h4 class="pull-right">$<%= i.price %> /day</h4>
                                 <h4><a href="#"><%= i.title %></a>
                                 </h4>
-                                <p><%= i.description %></p>
+                                <p class="descriptionContent"><%= i.description %></p>
                             </div>
                             <div class="ratings">
                                 <p class="pull-right">15 reviews</p>
@@ -92,6 +99,7 @@
                                     <span class="glyphicon glyphicon-star"></span>
                                 </p>
                             </div>
+                            <a href="#" class="btn btn-block btn-success"><span class="glyphicon glyphicon-ok"></span> Available!</a>
                         </div>
                     </div>
                 <% end %>

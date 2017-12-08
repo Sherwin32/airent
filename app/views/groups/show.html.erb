@@ -1,0 +1,7 @@
+<div class="avoidNav">
+
+<%= link_to destroy_group_path(:group_id => @group.id), controller: 'groups', action: 'destroy', method: :delete, data: {confirm: 'Delete this group?'} do %>
+  <span class="glyphicon glyphicon-trash toolBtn" title = "Delete file"> </span>
+<% end %>
+
+</div>

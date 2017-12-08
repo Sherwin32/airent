@@ -6,10 +6,13 @@
 
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <%= csrf_meta_tags %>
 
+    <%= csrf_meta_tags %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <!-- Mobile responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
 
   <body>
@@ -24,31 +27,23 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <%= link_to root_path, method: :get do %>
-                <a class="navbar-brand" href="">Arrietty</a>
-                <% end %>
+                    <a class="navbar-brand" href="/">Arrietty</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li>
-                        <a href="#">About</a>
-                    </li>
-                    <li>
-                        <a href="#">Services</a>
-                    </li>
-                    <li>
-                        <a href="#">Contact</a>
-                    </li>
                     <% if current_user %>
                         <li>
-                            <%= link_to("Log out", logout_path, method: :delete) %>
+                            <%= link_to("Group page", user_path(:id => current_user.id), method: :get) %>
                         </li>
                         <li>
                             <a href="" data-toggle="modal" data-target="#myModalCreateGroup">Create group</a>
                         </li>
                         <li>
                             <a href="" data-toggle="modal" data-target="#myModalJoinGroup">Join group</a>
+                        </li>
+                        <li>
+                            <%= link_to("Log out", logout_path, method: :delete) %>
                         </li>
                     <% else %>
                         <li>
@@ -58,6 +53,12 @@
                             <a href="" data-toggle="modal" data-target="#myModalSignIn">Log in</a>
                         </li>
                     <% end %>
+                    <!-- <li>
+                        <a href="#">About</a>
+                    </li>
+                    <li>
+                        <a href="#">Services</a>
+                    </li> -->
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

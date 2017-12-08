@@ -16,8 +16,8 @@
 
             <!-- Modal Body left -->
             <div class="row">
-            <div class="modal-body col-md-6" style="padding: 30px;">
-                <%= form_for :item, url: create_item_path, method: "post" do |f| %>
+            <div class="modal-body col-md-12" style="padding: 30px;">
+                <%= form_with scope: :item, url: create_item_path, method: "post", :html => {:id => "postForm"} do |f| %>
                 <div>
                   <%= f.text_field :title, placeholder: "Title", :required => true, :minlength => 3, :maxlength => 30, :autofocus => true %>
                 </div>
@@ -30,25 +30,24 @@
                 <div style="margin-top: 2%;">
                 <%= f.select :group_target, options_for_select(all_groups.collect{ |g| [g.name, g.id] }), :required => true %>
                 </div>
-            </div>
-            <div class="modal-body col-md-6" style="padding: 30px;">
-              <%= f.label :post_image, "Upload Picture" %>
-              <%= f.file_field :post_image, :required => true %>
-              <!-- <h1>Upload image here</h1> -->
+                <div style="margin-top: 2%;">
+                <%= f.label :post_image, "Upload Picture" %>
+                <%= f.file_field :post_image, :required => true %>
+                </div>
+                <div style="margin-top: 2%;">
+                <%= f.submit "Post", :class => "btn btn-default", :id => "postSubmit" %>
+                </div>
+                <%end%>
             </div>
             </div>
 
             <!-- Modal Footer -->
-            <div class="modal-footer">
-                <div style="float: left;">
-                <%= f.submit "Post", :class => "btn btn-default" %>
-                <%end%>
-                </div>
+           <!--  <div class="modal-footer">
                 <button type="button" class="btn btn-default"
                         data-dismiss="modal">
                             Close
                 </button>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

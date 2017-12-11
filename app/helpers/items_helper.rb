@@ -4,10 +4,8 @@ module ItemsHelper
 	end
 
 	def is_liked id
-		if current_user.liked_item_ids.include?(id)
-			true
-		else
-			false
-		end
+		current_user.liked_item_ids.include?(id)
 	end
+
+	
 end

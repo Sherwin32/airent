@@ -3,6 +3,10 @@
         <h1>Arrietty</h1>
         <h3>Rent and share idle tools with your friends</h3>
         <br>
-        <a href="#about" class="btn btn-light btn-lg" data-toggle="modal" data-target="#myModalSignUp">Join Now</a>
+        <% if current_user %>
+        <%= link_to("Log Out", logout_path, method: :delete, :class => "btn btn-light btn-lg") %>
+        <% else %>
+        <a href="" class="btn btn-light btn-lg" data-toggle="modal" data-target="#myModalSignUp">Join Now</a>
+        <% end %>
     </div>
 </div>

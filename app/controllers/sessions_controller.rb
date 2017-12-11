@@ -13,6 +13,7 @@ class SessionsController < ApplicationController
       flash[:notice]="Successfully logged in."
       redirect_to @user
     else
+      puts @user.errors.messages
       flash[:error] = "Incorrect username or password."
       redirect_to login_path
     end

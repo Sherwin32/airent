@@ -5,6 +5,10 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+# https://github.com/refile/refile/issues/551 issue solving
+gem 'refile', require: 'refile/rails', github: 'refile/refile', branch: 'master'
+gem 'refile-mini_magick', github: 'refile/refile-mini_magick', branch: 'master'
+
 gem 'pry-rails'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'

@@ -14,8 +14,26 @@ class ItemsController < ApplicationController
 		end
 	end
 
+	def show
+		@item = Item.find(params[:item_id])
+	end
+
+	def like
+		current_user.liked_item_ids.push(params[:item_id].to_i)
+		current_user.save
+	end
+
+	def unlike
+		current_user.liked_item_ids.delete(params[:item_id].to_i)
+		current_user.save
+	end
+
 	private
   def item_params
-    params.require(:item).permit(:title, :description, :price)
+    params.require(:item).permit(:title, :description, :price, :post_image)
+  end
+
+  def like_params
+  	params.require(:item).permit(:item_id)
   end
 end

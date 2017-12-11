@@ -8,6 +8,29 @@ body {
     padding-top: 40px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
 }
 
+p.descriptionContent{
+    display:inline-block;
+    width:100%;
+    white-space: nowrap;
+    overflow:hidden;
+    text-overflow: ellipsis;
+}
+
+.glyphicon-heart, .glyphicon-heart-empty{
+    color: red;
+    font-size: 25px;
+}
+
+.avoidNav {
+    padding-top: 30px;
+}
+
+.toolBtn {
+    font-size: 30px;
+    display: inline;
+    /*text-align: center;*/
+}
+
 .slide-image {
     width: 100%;
 }
@@ -22,7 +45,7 @@ body {
 }
 
 .caption {
-    height: 130px;
+    height: 80px;
     overflow: hidden;
 }
 

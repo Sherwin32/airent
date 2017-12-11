@@ -1,0 +1,18 @@
+<div class="container avoidNav">
+<!-- <h1>Item show page</h1> -->
+<div class="row">
+	<div class="col-sm-5 col-lg-5 col-md-5 thumbnail">
+		<%= image_tag attachment_url(@item, :post_image, :fit, 600, 600, format: "jpg", fallback: "Failed to load image") %>
+	</div>
+	<div class="col-sm-4 col-lg-4 col-md-4" style="padding: 0 20px 0 20px">
+		<div class="thumbnail">
+		<h1 style="margin: 0;"><%= @item.title %></h1>
+		<p>(Owner: <%= item_owner(@item.owner_id).user_name %>)</p>
+		<h3>Price: $<%= @item.price %> /day</h3>
+		<h3 style="display: inline;">Description: </h3><h5 style="display: inline;"><%= @item.description %></h5>
+		</div>
+	</div>
+	<div class="col-sm-3 col-lg-3 col-md-3">
+	</div>
+</div>
+</div>

@@ -16,8 +16,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find_by_id(params[:id])
-    puts "What happened? #{current_user.id}"
-    if (current_user != @user)
+    if !current_user
       flash[:error] = 'Stop Hacking!'
       redirect_to '/'
     end

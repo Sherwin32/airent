@@ -8,6 +8,11 @@ body {
     padding-top: 40px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
 }
 
+.waitingList{
+    height: 60vh;
+    overflow-y: scroll;
+}
+
 p.descriptionContent{
     display:inline-block;
     width:100%;

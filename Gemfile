@@ -5,8 +5,9 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-
+# http://www.adamscott.io/blog/2014/01/21/renaming-a-ruby-on-rails-application/
 gem "rename"
+
 # https://github.com/refile/refile/issues/551 issue solving
 gem 'refile', require: 'refile/rails', github: 'refile/refile', branch: 'master'
 gem 'refile-mini_magick', github: 'refile/refile-mini_magick', branch: 'master'

@@ -1,5 +1,4 @@
 <div class="container avoidNav">
-<!-- <h1>Item show page</h1> -->
 <div class="row">
 	<div class="col-sm-5 col-lg-5 col-md-5 thumbnail">
 		<%= image_tag attachment_url(@item, :post_image, :fit, 600, 600, format: "jpg", fallback: "Failed to load image") %>
@@ -9,10 +8,20 @@
 		<h1 style="margin: 0;"><%= @item.title %></h1>
 		<p>(Owner: <%= item_owner(@item.owner_id).user_name %>)</p>
 		<h3>Price: $<%= @item.price %> /day</h3>
-		<h3 style="display: inline;">Description: </h3><h5 style="display: inline;"><%= @item.description %></h5>
+		<h3 style="display: inline;">Description: </h3><h5 style="display: inline; word-wrap: break-word;"><%= @item.description %></h5>
 		</div>
 	</div>
 	<div class="col-sm-3 col-lg-3 col-md-3">
+		<div class="thumbnail waitingList">
+			<h1 style="margin-top: 0; text-align: center;">Waiting List:</h1>
+			<% if @item.request_id_list.length == 0 %>
+				<p style="text-align: center;">No one's on the list.</p>
+			<% else %>
+				<% all_users_on_waiting_list(@item.id).each do |u| %>
+					<p><%= u.user_name %></p>
+				<% end %>
+			<% end %>
+		</div>
 	</div>
 </div>
 </div>

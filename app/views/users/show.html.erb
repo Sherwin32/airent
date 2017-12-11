@@ -15,7 +15,8 @@
                 <div class="list-group">
                     <a href="" class="list-group-item" data-toggle="modal" data-target="#myModalCreateItem">Post item</a>
                     <a href="" class="list-group-item groupSwitch" tagName="allItemAndHashcodeInCaseOfSameGroupName">All items</a>
-                    <a href="" class="list-group-item">Rental list</a>
+                    <a href="" class="list-group-item groupSwitch" tagName="userItemAndHashCodeInCaseOfSameGroupName">Your posts</a>
+                    <a href="" class="list-group-item groupSwitch" tagName="likedItemAndHashCodeInCaseOfSameGroupName">Liked items</a>
                 </div>
                 <hr>
                 <p class="lead">Joined Groups</p>
@@ -42,6 +43,63 @@
                 <hr>
             </div>
 
+            <div class="col-md-9 groupPage" style="display: ;"  tagName="allItemAndHashcodeInCaseOfSameGroupName">
+                <h1 style="text-align: center; margin-top: 0;">All items</h1>
+                <hr>
+                <% current_user.items.reverse_each do |i| %>
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+                        <div class="thumbnail">
+                            <%= image_tag attachment_url(i, :post_image, :fill, 320, 150, format: "jpg") %>
+                            <div class="caption">
+                                <h4 class="pull-right">$<%= i.price %> /day</h4>
+                                <h4><a href="/item/<%= i.id %>"><%= i.title %></a>
+                                </h4>
+                                <p class="descriptionContent"><%= i.description %></p>
+                            </div>
+                            <div class="ratings">
+                                <p class="pull-right"><%= i.request_id_list.length %> people on waiting list</p>
+                                <p>
+                                <% if is_liked(i.id) %>
+                                  <div class="unlikeBtn" style="display: ;" itemId="<%= i.id %>">
+                                    <%= link_to unlike_path(:item_id => i.id), controller: 'items', action: 'unlike', method: :put do %>
+                                        <span class="glyphicon glyphicon-heart"></span>
+                                    <% end %>
+                                  </div>
+                                  <div class="likeBtn" style="display: none;" itemId="<%= i.id %>">
+                                    <%= link_to like_path(:item_id => i.id), controller: 'items', action: 'like', method: :put do %>
+                                        <span class="glyphicon glyphicon-heart-empty"></span>
+                                    <% end %>
+                                  </div>
+                                <% else %>
+                                  <div class="unlikeBtn" style="display: none;" itemId="<%= i.id %>">
+                                    <%= link_to unlike_path(:item_id => i.id), controller: 'items', action: 'unlike', method: :put do %>
+                                        <span class="glyphicon glyphicon-heart"></span>
+                                    <% end %>
+                                  </div>
+                                  <div class="likeBtn" style="display: ;" itemId="<%= i.id %>">
+                                    <%= link_to like_path(:item_id => i.id), controller: 'items', action: 'like', method: :put do %>
+                                        <span class="glyphicon glyphicon-heart-empty"></span>
+                                    <% end %>
+                                  </div>
+                                <% end %>
+                                </p>
+                            </div>
+                            <% if available?(i) %>
+                              <%= link_to subscribe_path(:item_id => i.id), controller: 'items', action: 'subscribe', method: :put do %>
+                              <span href="" class="btn btn-block btn-success"><span class="glyphicon glyphicon-ok"></span> Join waiting list?</span>
+                              <% end %>
+                            <% elsif already_on_list?(i) %>
+                              <%= link_to unsubscribe_path(:item_id => i.id), controller: 'items', action: 'unsubscribe', method: :put do %>
+                              <span href="" class="btn btn-block btn-danger"><span class="glyphicon glyphicon-minus"></span> Leave waiting list?</span>
+                              <% end %>
+                            <% elsif in_your_hand?(i) %>
+                              <a href="/item/<%= i.id %>" class="btn btn-block btn-primary"><span class="glyphicon glyphicon-wrench"></span> In your hand</a>
+                            <% end %>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+
             <% all_groups.each do |g| %>
             <div class="col-md-9 groupPage" style="display: none;" tagName="<%= g.name %>">
                 <h1 style="text-align: center; margin-top: 0;"><%= g.name %>
@@ -62,7 +120,7 @@
                                 <p class="descriptionContent"><%= i.description %></p>
                             </div>
                             <div class="ratings">
-                                <p class="pull-right">15 reviews</p>
+                                <p class="pull-right"><%= i.request_id_list.length %> people on waiting list</p>
                                 <p>
                                 <% if is_liked(i.id) %>
                                   <div class="unlikeBtn" style="display: ;" itemId="<%= i.id %>">
@@ -95,10 +153,11 @@
             </div>
             <% end %>
 
-            <div class="col-md-9 groupPage" style="display: ;"  tagName="allItemAndHashcodeInCaseOfSameGroupName">
-                <h1 style="text-align: center; margin-top: 0;">All items</h1>
+            <div class="col-md-9 groupPage" style="display: none;"  tagName="userItemAndHashCodeInCaseOfSameGroupName">
+                <h1 style="text-align: center; margin-top: 0;">Your posts</h1>
                 <hr>
                 <% current_user.items.reverse_each do |i| %>
+                  <% if current_user.id == i.owner_id %>
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
                             <%= image_tag attachment_url(i, :post_image, :fill, 320, 150, format: "jpg") %>
@@ -109,7 +168,7 @@
                                 <p class="descriptionContent"><%= i.description %></p>
                             </div>
                             <div class="ratings">
-                                <p class="pull-right">15 reviews</p>
+                                <p class="pull-right"><%= i.request_id_list.length %> people on waiting list</p>
                                 <p>
                                 <% if is_liked(i.id) %>
                                   <div class="unlikeBtn" style="display: ;" itemId="<%= i.id %>">
@@ -139,6 +198,56 @@
                             <a href="#" class="btn btn-block btn-success"><span class="glyphicon glyphicon-ok"></span> Available!</a>
                         </div>
                     </div>
+                  <% end %>
+                <% end %>
+            </div>
+
+            <div class="col-md-9 groupPage" style="display: none;"  tagName="likedItemAndHashCodeInCaseOfSameGroupName">
+                <h1 style="text-align: center; margin-top: 0;">Liked items</h1>
+                <hr>
+                <% current_user.items.reverse_each do |i| %>
+                  <% if is_liked(i.id) %>
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+                        <div class="thumbnail">
+                            <%= image_tag attachment_url(i, :post_image, :fill, 320, 150, format: "jpg") %>
+                            <div class="caption">
+                                <h4 class="pull-right">$<%= i.price %> /day</h4>
+                                <h4><a href="/item/<%= i.id %>"><%= i.title %></a>
+                                </h4>
+                                <p class="descriptionContent"><%= i.description %></p>
+                            </div>
+                            <div class="ratings">
+                                <p class="pull-right"><%= i.request_id_list.length %> people on waiting list</p>
+                                <p>
+                                <% if is_liked(i.id) %>
+                                  <div class="unlikeBtn" style="display: ;" itemId="<%= i.id %>">
+                                    <%= link_to unlike_path(:item_id => i.id), controller: 'items', action: 'unlike', method: :put do %>
+                                        <span class="glyphicon glyphicon-heart"></span>
+                                    <% end %>
+                                  </div>
+                                  <div class="likeBtn" style="display: none;" itemId="<%= i.id %>">
+                                    <%= link_to like_path(:item_id => i.id), controller: 'items', action: 'like', method: :put do %>
+                                        <span class="glyphicon glyphicon-heart-empty"></span>
+                                    <% end %>
+                                  </div>
+                                <% else %>
+                                  <div class="unlikeBtn" style="display: none;" itemId="<%= i.id %>">
+                                    <%= link_to unlike_path(:item_id => i.id), controller: 'items', action: 'unlike', method: :put do %>
+                                        <span class="glyphicon glyphicon-heart"></span>
+                                    <% end %>
+                                  </div>
+                                  <div class="likeBtn" style="display: ;" itemId="<%= i.id %>">
+                                    <%= link_to like_path(:item_id => i.id), controller: 'items', action: 'like', method: :put do %>
+                                        <span class="glyphicon glyphicon-heart-empty"></span>
+                                    <% end %>
+                                  </div>
+                                <% end %>
+                                </p>
+                            </div>
+                            <a href="#" class="btn btn-block btn-success"><span class="glyphicon glyphicon-ok"></span> Available!</a>
+                        </div>
+                    </div>
+                  <% end %>
                 <% end %>
             </div>
 
@@ -166,162 +275,6 @@
                   $(`.likeBtn[itemId='${item_id}']`).hide()
                 })
             </script>
-
-            <!-- <div class="col-md-9">
-
-                <div class="row carousel-holder">
-
-                    <div class="col-md-12">
-                        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                            <ol class="carousel-indicators">
-                                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-                            </ol>
-                            <div class="carousel-inner">
-                                <div class="item active">
-                                    <img class="slide-image" src="http://placehold.it/800x300" alt="">
-                                </div>
-                                <div class="item">
-                                    <img class="slide-image" src="http://placehold.it/800x300" alt="">
-                                </div>
-                                <div class="item">
-                                    <img class="slide-image" src="http://placehold.it/800x300" alt="">
-                                </div>
-                            </div>
-                            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                                <span class="glyphicon glyphicon-chevron-left"></span>
-                            </a>
-                            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                                <span class="glyphicon glyphicon-chevron-right"></span>
-                            </a>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="row">
-
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <img src="http://placehold.it/320x150" alt="">
-                            <div class="caption">
-                                <h4 class="pull-right">$24.99</h4>
-                                <h4><a href="#">First Product</a>
-                                </h4>
-                                <p>See more snippets like this online store item at <a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
-                            </div>
-                            <div class="ratings">
-                                <p class="pull-right">15 reviews</p>
-                                <p>
-                                    <span class="glyphicon glyphicon-heart"></span>
-                                    <span class="glyphicon glyphicon-heart"></span>
-                                    <span class="glyphicon glyphicon-heart"></span>
-                                    <span class="glyphicon glyphicon-heart"></span>
-                                    <span class="glyphicon glyphicon-heart"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <img src="http://placehold.it/320x150" alt="">
-                            <div class="caption">
-                                <h4 class="pull-right">$64.99</h4>
-                                <h4><a href="#">Second Product</a>
-                                </h4>
-                                <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
-                            <div class="ratings">
-                                <p class="pull-right">12 reviews</p>
-                                <p>
-                                    <span class="glyphicon glyphicon-heart"></span>
-                                    <span class="glyphicon glyphicon-heart"></span>
-                                    <span class="glyphicon glyphicon-heart"></span>
-                                    <span class="glyphicon glyphicon-heart"></span>
-                                    <span class="glyphicon glyphicon-heart-empty"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <img src="http://placehold.it/320x150" alt="">
-                            <div class="caption">
-                                <h4 class="pull-right">$74.99</h4>
-                                <h4><a href="#">Third Product</a>
-                                </h4>
-                                <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
-                            <div class="ratings">
-                                <p class="pull-right">31 reviews</p>
-                                <p>
-                                    <span class="glyphicon glyphicon-heart"></span>
-                                    <span class="glyphicon glyphicon-heart"></span>
-                                    <span class="glyphicon glyphicon-heart"></span>
-                                    <span class="glyphicon glyphicon-heart"></span>
-                                    <span class="glyphicon glyphicon-heart-empty"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <img src="http://placehold.it/320x150" alt="">
-                            <div class="caption">
-                                <h4 class="pull-right">$84.99</h4>
-                                <h4><a href="#">Fourth Product</a>
-                                </h4>
-                                <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
-                            <div class="ratings">
-                                <p class="pull-right">6 reviews</p>
-                                <p>
-                                    <span class="glyphicon glyphicon-heart"></span>
-                                    <span class="glyphicon glyphicon-heart"></span>
-                                    <span class="glyphicon glyphicon-heart"></span>
-                                    <span class="glyphicon glyphicon-heart-empty"></span>
-                                    <span class="glyphicon glyphicon-heart-empty"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <img src="http://placehold.it/320x150" alt="">
-                            <div class="caption">
-                                <h4 class="pull-right">$94.99</h4>
-                                <h4><a href="#">Fifth Product</a>
-                                </h4>
-                                <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
-                            <div class="ratings">
-                                <p class="pull-right">18 reviews</p>
-                                <p>
-                                    <span class="glyphicon glyphicon-heart"></span>
-                                    <span class="glyphicon glyphicon-heart"></span>
-                                    <span class="glyphicon glyphicon-heart"></span>
-                                    <span class="glyphicon glyphicon-heart"></span>
-                                    <span class="glyphicon glyphicon-heart-empty"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <h4><a href="#">Like this template?</a>
-                        </h4>
-                        <p>If you like this template, then check out <a target="_blank" href="http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/">this tutorial</a> on how to build a working review system for your online store!</p>
-                        <a class="btn btn-primary" target="_blank" href="http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/">View Tutorial</a>
-                    </div>
-
-                </div>
-
-            </div> -->
 
         </div>
 

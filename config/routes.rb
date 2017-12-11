@@ -20,5 +20,7 @@ Rails.application.routes.draw do
 	get '/item/:item_id', to: 'items#show', as: 'item'
 	put '/item/like/:item_id', to: 'items#like', as: 'like'
 	put '/item/unlike/:item_id', to: 'items#unlike', as: 'unlike'
+	put '/item/subscribe/:item_id', to: 'items#subscribe', as: 'subscribe'
+	put '/item/unsubscribe/:item_id', to: 'items#unsubscribe', as: 'unsubscribe'
 
 end

@@ -1,3 +1,4 @@
+
 <div class="container" style="padding-top: 20px;">
 
 <%= render 'layouts/postmodal' %>
@@ -6,13 +7,15 @@
 
             <div class="col-md-3">
             <a href="#" class="btn btn-block btn-success"><span class="glyphicon glyphicon-ok"></span> Available!</a>
-            <a href="#" class="btn btn-block btn-danger"><span class="glyphicon glyphicon-minus"></span> Request pending. Unsubscribe?</a>
-            <a href="#" class="btn btn-block btn-success"><span class="glyphicon glyphicon-usd"></span> Someone's interested!</a>
+            <a href="#" class="btn btn-block btn-primary"><span class="glyphicon glyphicon-wrench"></span> In your hand</a>
+            <a href="#" class="btn btn-block btn-warning"><span class="glyphicon glyphicon-user"></span> Join waiting list?</a>
+            <a href="#" class="btn btn-block btn-danger"><span class="glyphicon glyphicon-minus"></span> Leave waiting list?</a>
+            <a href="#" class="btn btn-block btn-warning"><span class="glyphicon glyphicon-usd"></span> Someone's interested!</a>
                 <p class="lead">Management</p>
                 <div class="list-group">
                     <a href="" class="list-group-item" data-toggle="modal" data-target="#myModalCreateItem">Post item</a>
-                    <a href="" class="list-group-item groupSwitch" tagName="allItemAndHashcodeInCaseOfSameGroupName">All Items</a>
-                    <a href="" class="list-group-item">Category 3</a>
+                    <a href="" class="list-group-item groupSwitch" tagName="allItemAndHashcodeInCaseOfSameGroupName">All items</a>
+                    <a href="" class="list-group-item">Rental list</a>
                 </div>
                 <hr>
                 <p class="lead">Joined Groups</p>
@@ -42,31 +45,48 @@
             <% all_groups.each do |g| %>
             <div class="col-md-9 groupPage" style="display: none;" tagName="<%= g.name %>">
                 <h1 style="text-align: center; margin-top: 0;"><%= g.name %>
-                <%= link_to show_group_path(:group_id => g.id), controller: 'groups', action: 'show', method: :get do %>
+                <%= link_to group_path(:group_id => g.id), controller: 'groups', action: 'show', method: :get do %>
                   <span class="glyphicon glyphicon-cog toolBtn" title = "Manage Group"> </span>
                 <% end %>
                 </h1>
                 <hr>
-                <% g.items.each do |i| %>
+                <% g.items.reverse_each do |i| %>
 
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
-                            <!-- <img src="http://placehold.it/320x150" alt=""> -->
                             <%= image_tag attachment_url(i, :post_image, :fill, 320, 150, format: "jpg") %>
                             <div class="caption">
                                 <h4 class="pull-right">$<%= i.price %> /day</h4>
-                                <h4><a href="#"><%= i.title %></a>
+                                <h4><a href="/item/<%= i.id %>"><%= i.title %></a>
                                 </h4>
                                 <p class="descriptionContent"><%= i.description %></p>
                             </div>
                             <div class="ratings">
                                 <p class="pull-right">15 reviews</p>
                                 <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
+                                <% if is_liked(i.id) %>
+                                  <div class="unlikeBtn" style="display: ;" itemId="<%= i.id %>">
+                                    <%= link_to unlike_path(:item_id => i.id), controller: 'items', action: 'unlike', method: :put do %>
+                                        <span class="glyphicon glyphicon-heart"></span>
+                                    <% end %>
+                                  </div>
+                                  <div class="likeBtn" style="display: none;" itemId="<%= i.id %>">
+                                    <%= link_to like_path(:item_id => i.id), controller: 'items', action: 'like', method: :put do %>
+                                        <span class="glyphicon glyphicon-heart-empty"></span>
+                                    <% end %>
+                                  </div>
+                                <% else %>
+                                  <div class="unlikeBtn" style="display: none;" itemId="<%= i.id %>">
+                                    <%= link_to unlike_path(:item_id => i.id), controller: 'items', action: 'unlike', method: :put do %>
+                                        <span class="glyphicon glyphicon-heart"></span>
+                                    <% end %>
+                                  </div>
+                                  <div class="likeBtn" style="display: ;" itemId="<%= i.id %>">
+                                    <%= link_to like_path(:item_id => i.id), controller: 'items', action: 'like', method: :put do %>
+                                        <span class="glyphicon glyphicon-heart-empty"></span>
+                                    <% end %>
+                                  </div>
+                                <% end %>
                                 </p>
                             </div>
                         </div>
@@ -78,25 +98,42 @@
             <div class="col-md-9 groupPage" style="display: ;"  tagName="allItemAndHashcodeInCaseOfSameGroupName">
                 <h1 style="text-align: center; margin-top: 0;">All items</h1>
                 <hr>
-                <% current_user.items.each do |i| %>
+                <% current_user.items.reverse_each do |i| %>
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
-                            <!-- <img src="http://placehold.it/320x150" alt=""> -->
                             <%= image_tag attachment_url(i, :post_image, :fill, 320, 150, format: "jpg") %>
                             <div class="caption">
                                 <h4 class="pull-right">$<%= i.price %> /day</h4>
-                                <h4><a href="#"><%= i.title %></a>
+                                <h4><a href="/item/<%= i.id %>"><%= i.title %></a>
                                 </h4>
                                 <p class="descriptionContent"><%= i.description %></p>
                             </div>
                             <div class="ratings">
                                 <p class="pull-right">15 reviews</p>
                                 <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
+                                <% if is_liked(i.id) %>
+                                  <div class="unlikeBtn" style="display: ;" itemId="<%= i.id %>">
+                                    <%= link_to unlike_path(:item_id => i.id), controller: 'items', action: 'unlike', method: :put do %>
+                                        <span class="glyphicon glyphicon-heart"></span>
+                                    <% end %>
+                                  </div>
+                                  <div class="likeBtn" style="display: none;" itemId="<%= i.id %>">
+                                    <%= link_to like_path(:item_id => i.id), controller: 'items', action: 'like', method: :put do %>
+                                        <span class="glyphicon glyphicon-heart-empty"></span>
+                                    <% end %>
+                                  </div>
+                                <% else %>
+                                  <div class="unlikeBtn" style="display: none;" itemId="<%= i.id %>">
+                                    <%= link_to unlike_path(:item_id => i.id), controller: 'items', action: 'unlike', method: :put do %>
+                                        <span class="glyphicon glyphicon-heart"></span>
+                                    <% end %>
+                                  </div>
+                                  <div class="likeBtn" style="display: ;" itemId="<%= i.id %>">
+                                    <%= link_to like_path(:item_id => i.id), controller: 'items', action: 'like', method: :put do %>
+                                        <span class="glyphicon glyphicon-heart-empty"></span>
+                                    <% end %>
+                                  </div>
+                                <% end %>
                                 </p>
                             </div>
                             <a href="#" class="btn btn-block btn-success"><span class="glyphicon glyphicon-ok"></span> Available!</a>
@@ -118,6 +155,16 @@
                 function hideAll(){
                     $(`.groupPage`).hide()
                 }
+                $(".unlikeBtn").on("click", function(){
+                  var item_id = $(this).attr("itemId")
+                  $(`.likeBtn[itemId='${item_id}']`).show()
+                  $(`.unlikeBtn[itemId='${item_id}']`).hide()
+                })
+                $(".likeBtn").on("click", function(){
+                  var item_id = $(this).attr("itemId")
+                  $(`.unlikeBtn[itemId='${item_id}']`).show()
+                  $(`.likeBtn[itemId='${item_id}']`).hide()
+                })
             </script>
 
             <!-- <div class="col-md-9">
@@ -167,11 +214,11 @@
                             <div class="ratings">
                                 <p class="pull-right">15 reviews</p>
                                 <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-heart"></span>
+                                    <span class="glyphicon glyphicon-heart"></span>
+                                    <span class="glyphicon glyphicon-heart"></span>
+                                    <span class="glyphicon glyphicon-heart"></span>
+                                    <span class="glyphicon glyphicon-heart"></span>
                                 </p>
                             </div>
                         </div>
@@ -189,11 +236,11 @@
                             <div class="ratings">
                                 <p class="pull-right">12 reviews</p>
                                 <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-heart"></span>
+                                    <span class="glyphicon glyphicon-heart"></span>
+                                    <span class="glyphicon glyphicon-heart"></span>
+                                    <span class="glyphicon glyphicon-heart"></span>
+                                    <span class="glyphicon glyphicon-heart-empty"></span>
                                 </p>
                             </div>
                         </div>
@@ -211,11 +258,11 @@
                             <div class="ratings">
                                 <p class="pull-right">31 reviews</p>
                                 <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-heart"></span>
+                                    <span class="glyphicon glyphicon-heart"></span>
+                                    <span class="glyphicon glyphicon-heart"></span>
+                                    <span class="glyphicon glyphicon-heart"></span>
+                                    <span class="glyphicon glyphicon-heart-empty"></span>
                                 </p>
                             </div>
                         </div>
@@ -233,11 +280,11 @@
                             <div class="ratings">
                                 <p class="pull-right">6 reviews</p>
                                 <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-heart"></span>
+                                    <span class="glyphicon glyphicon-heart"></span>
+                                    <span class="glyphicon glyphicon-heart"></span>
+                                    <span class="glyphicon glyphicon-heart-empty"></span>
+                                    <span class="glyphicon glyphicon-heart-empty"></span>
                                 </p>
                             </div>
                         </div>
@@ -255,11 +302,11 @@
                             <div class="ratings">
                                 <p class="pull-right">18 reviews</p>
                                 <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                    <span class="glyphicon glyphicon-heart"></span>
+                                    <span class="glyphicon glyphicon-heart"></span>
+                                    <span class="glyphicon glyphicon-heart"></span>
+                                    <span class="glyphicon glyphicon-heart"></span>
+                                    <span class="glyphicon glyphicon-heart-empty"></span>
                                 </p>
                             </div>
                         </div>

@@ -9,11 +9,16 @@ body {
 }
 
 p.descriptionContent{
-    word-wrap: break-word;
-    overflow: hidden;
-    line-height: 1.5em;
-    height: 4.5em;
+    display:inline-block;
+    width:100%;
+    white-space: nowrap;
+    overflow:hidden;
     text-overflow: ellipsis;
+}
+
+.glyphicon-heart, .glyphicon-heart-empty{
+    color: red;
+    font-size: 25px;
 }
 
 .avoidNav {

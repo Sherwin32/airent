@@ -22,5 +22,8 @@ Rails.application.routes.draw do
 	put '/item/unlike/:item_id', to: 'items#unlike', as: 'unlike'
 	put '/item/subscribe/:item_id', to: 'items#subscribe', as: 'subscribe'
 	put '/item/unsubscribe/:item_id', to: 'items#unsubscribe', as: 'unsubscribe'
+	put '/item/:item_id/force_unsubscribe/:tenant_id', to: 'items#force_unsubscribe', as: 'force_unsubscribe'
+	put '/item/:item_id/confirm_rental/:tenant_id', to: 'items#confirm_rental', as: 'confirm_rental'
+	put '/item/:item_id/confirm_return/:tenant_id', to: 'items#confirm_return', as: 'confirm_return'
 
 end

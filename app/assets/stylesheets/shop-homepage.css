@@ -21,9 +21,17 @@ p.descriptionContent{
     text-overflow: ellipsis;
 }
 
+/*.glyphicon{
+    font-size: 20px;
+}*/
+
 .glyphicon-heart, .glyphicon-heart-empty{
     color: red;
     font-size: 25px;
+}
+
+.glyphicon-ok-circle, .glyphicon-ok-sign{
+    color: green;
 }
 
 .avoidNav {
@@ -31,8 +39,9 @@ p.descriptionContent{
 }
 
 .toolBtn {
-    font-size: 30px;
+    font-size: 23px;
     display: inline;
+    margin: 0 5px 0 5px;
     /*text-align: center;*/
 }
 
@@ -75,6 +84,14 @@ p.descriptionContent{
 .thumbnail .caption-full {
     padding: 9px;
     color: #333;
+}
+
+
+.userPageItemTitle{
+    width: 60%;
+    white-space: nowrap;
+    overflow:hidden;
+    text-overflow: ellipsis;
 }
 
 footer {

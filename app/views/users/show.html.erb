@@ -4,13 +4,7 @@
 <%= render 'layouts/postmodal' %>
 
         <div class="row">
-
             <div class="col-md-3">
-            <a href="#" class="btn btn-block btn-success"><span class="glyphicon glyphicon-ok"></span> Available!</a>
-            <a href="#" class="btn btn-block btn-primary"><span class="glyphicon glyphicon-wrench"></span> In your hand</a>
-            <a href="#" class="btn btn-block btn-warning"><span class="glyphicon glyphicon-user"></span> Join waiting list?</a>
-            <a href="#" class="btn btn-block btn-danger"><span class="glyphicon glyphicon-minus"></span> Leave waiting list?</a>
-            <a href="#" class="btn btn-block btn-warning"><span class="glyphicon glyphicon-usd"></span> Someone's interested!</a>
                 <p class="lead">Management</p>
                 <div class="list-group">
                     <a href="" class="list-group-item" data-toggle="modal" data-target="#myModalCreateItem">Post item</a>
@@ -48,11 +42,11 @@
                 <hr>
                 <% current_user.items.reverse_each do |i| %>
                     <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
+                        <div class="thumbnail" title="<%= i.title %>">
                             <%= image_tag attachment_url(i, :post_image, :fill, 320, 150, format: "jpg") %>
                             <div class="caption">
                                 <h4 class="pull-right">$<%= i.price %> /day</h4>
-                                <h4><a href="/item/<%= i.id %>"><%= i.title %></a>
+                                <h4 class="userPageItemTitle"><a href="/item/<%= i.id %>"><%= i.title %></a>
                                 </h4>
                                 <p class="descriptionContent"><%= i.description %></p>
                             </div>
@@ -84,7 +78,15 @@
                                 <% end %>
                                 </p>
                             </div>
-                            <% if available?(i) %>
+                            <% if owner_should_check?(i) %>
+                              <a href="/item/<%= i.id %>" class="btn btn-block btn-warning"><span class="glyphicon glyphicon-usd"></span> Someone's interested!</a>
+                            <% elsif owner_check_rent_out?(i) %>
+                              <a href="/item/<%= i.id %>" class="btn btn-block btn-info"><span class="glyphicon glyphicon-user"></span> Tenant: <%= tenant_name(i) %></a>
+                            <% elsif is_owner?(i) %>
+                              <a href="/item/<%= i.id %>" class="btn btn-block btn-success"><span class="glyphicon glyphicon-info-sign"></span> Your post (No response yet)</a>
+                            <% elsif is_tenant?(i) %>
+                              <a href="/item/<%= i.id %>" class="btn btn-block btn-primary"><span class="glyphicon glyphicon-wrench"></span> In your hand</a>
+                            <% elsif tenant_not_on_list?(i) %>
                               <%= link_to subscribe_path(:item_id => i.id), controller: 'items', action: 'subscribe', method: :put do %>
                               <span href="" class="btn btn-block btn-success"><span class="glyphicon glyphicon-ok"></span> Join waiting list?</span>
                               <% end %>
@@ -92,8 +94,6 @@
                               <%= link_to unsubscribe_path(:item_id => i.id), controller: 'items', action: 'unsubscribe', method: :put do %>
                               <span href="" class="btn btn-block btn-danger"><span class="glyphicon glyphicon-minus"></span> Leave waiting list?</span>
                               <% end %>
-                            <% elsif in_your_hand?(i) %>
-                              <a href="/item/<%= i.id %>" class="btn btn-block btn-primary"><span class="glyphicon glyphicon-wrench"></span> In your hand</a>
                             <% end %>
                         </div>
                     </div>
@@ -111,11 +111,11 @@
                 <% g.items.reverse_each do |i| %>
 
                     <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
+                        <div class="thumbnail" title="<%= i.title %>">
                             <%= image_tag attachment_url(i, :post_image, :fill, 320, 150, format: "jpg") %>
                             <div class="caption">
                                 <h4 class="pull-right">$<%= i.price %> /day</h4>
-                                <h4><a href="/item/<%= i.id %>"><%= i.title %></a>
+                                <h4 class="userPageItemTitle"><a href="/item/<%= i.id %>"><%= i.title %></a>
                                 </h4>
                                 <p class="descriptionContent"><%= i.description %></p>
                             </div>
@@ -159,11 +159,11 @@
                 <% current_user.items.reverse_each do |i| %>
                   <% if current_user.id == i.owner_id %>
                     <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
+                        <div class="thumbnail" title="<%= i.title %>">
                             <%= image_tag attachment_url(i, :post_image, :fill, 320, 150, format: "jpg") %>
                             <div class="caption">
                                 <h4 class="pull-right">$<%= i.price %> /day</h4>
-                                <h4><a href="/item/<%= i.id %>"><%= i.title %></a>
+                                <h4 class="userPageItemTitle"><a href="/item/<%= i.id %>"><%= i.title %></a>
                                 </h4>
                                 <p class="descriptionContent"><%= i.description %></p>
                             </div>
@@ -207,12 +207,15 @@
                 <hr>
                 <% current_user.items.reverse_each do |i| %>
                   <% if is_liked(i.id) %>
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
+                    <div class="col-sm-4 col-lg-4 col-md-4 likedItem" style="display: ;" itemId="<%= i.id %>">
+                  <% else %>
+                    <div class="col-sm-4 col-lg-4 col-md-4 unlikedItem" style="display: none;" itemId="<%= i.id %>">
+                  <% end %>
+                        <div class="thumbnail" title="<%= i.title %>">
                             <%= image_tag attachment_url(i, :post_image, :fill, 320, 150, format: "jpg") %>
                             <div class="caption">
                                 <h4 class="pull-right">$<%= i.price %> /day</h4>
-                                <h4><a href="/item/<%= i.id %>"><%= i.title %></a>
+                                <h4 class="userPageItemTitle"><a href="/item/<%= i.id %>"><%= i.title %></a>
                                 </h4>
                                 <p class="descriptionContent"><%= i.description %></p>
                             </div>
@@ -247,7 +250,6 @@
                             <a href="#" class="btn btn-block btn-success"><span class="glyphicon glyphicon-ok"></span> Available!</a>
                         </div>
                     </div>
-                  <% end %>
                 <% end %>
             </div>
 
@@ -268,11 +270,13 @@
                   var item_id = $(this).attr("itemId")
                   $(`.likeBtn[itemId='${item_id}']`).show()
                   $(`.unlikeBtn[itemId='${item_id}']`).hide()
+                  $(`.likedItem[itemId='${item_id}']`).hide().removeClass('likedItem').addClass('unlikedItem')
                 })
                 $(".likeBtn").on("click", function(){
                   var item_id = $(this).attr("itemId")
                   $(`.unlikeBtn[itemId='${item_id}']`).show()
                   $(`.likeBtn[itemId='${item_id}']`).hide()
+                  $(`.unlikedItem[itemId='${item_id}']`).show().removeClass('unlikedItem').addClass('likedItem')
                 })
             </script>
 

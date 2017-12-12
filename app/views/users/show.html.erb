@@ -43,7 +43,9 @@
                 <% current_user.items.reverse_each do |i| %>
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail" title="<%= i.title %>">
+                          <div style="height:150px">
                             <%= image_tag attachment_url(i, :post_image, :fill, 320, 150, format: "jpg") %>
+                          </div>
                             <div class="caption">
                                 <h4 class="pull-right">$<%= i.price %> /day</h4>
                                 <h4 class="userPageItemTitle"><a href="/item/<%= i.id %>"><%= i.title %></a>
@@ -111,7 +113,9 @@
                 <% g.items.reverse_each do |i| %>
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail" title="<%= i.title %>">
+                            <div style="height:150px">
                             <%= image_tag attachment_url(i, :post_image, :fill, 320, 150, format: "jpg") %>
+                            </div>
                             <div class="caption">
                                 <h4 class="pull-right">$<%= i.price %> /day</h4>
                                 <h4 class="userPageItemTitle"><a href="/item/<%= i.id %>"><%= i.title %></a>
@@ -176,7 +180,9 @@
                   <% if current_user.id == i.owner_id %>
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail" title="<%= i.title %>">
+                            <div style="height:150px">
                             <%= image_tag attachment_url(i, :post_image, :fill, 320, 150, format: "jpg") %>
+                            </div>
                             <div class="caption">
                                 <h4 class="pull-right">$<%= i.price %> /day</h4>
                                 <h4 class="userPageItemTitle"><a href="/item/<%= i.id %>"><%= i.title %></a>
@@ -244,7 +250,9 @@
                     <div class="col-sm-4 col-lg-4 col-md-4 unlikedItem" style="display: none;" itemId="<%= i.id %>">
                   <% end %>
                         <div class="thumbnail" title="<%= i.title %>">
+                            <div style="height:150px">
                             <%= image_tag attachment_url(i, :post_image, :fill, 320, 150, format: "jpg") %>
+                            </div>
                             <div class="caption">
                                 <h4 class="pull-right">$<%= i.price %> /day</h4>
                                 <h4 class="userPageItemTitle"><a href="/item/<%= i.id %>"><%= i.title %></a>

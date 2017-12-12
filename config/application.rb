@@ -27,5 +27,7 @@ module Airent
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+    # deploy heroku
+    config.serve_static_assets = true
   end
 end

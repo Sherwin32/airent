@@ -21,7 +21,7 @@
 				<% all_users_on_waiting_list(@item.id).each do |u| %>
 				<div class="row">
 					<div class="col-xs-8">
-					<h3 style="margin: 0 0 0 10px;"><%= u.user_name %></h3>
+						<h3 style="margin: 0 0 0 10px;"><%= u.user_name %></h3>
 					</div>
 					<div class="col-xs-4">
 					<% if is_owner?(@item) %>
@@ -30,12 +30,8 @@
 							  <span class="glyphicon glyphicon-ok-sign toolBtn pull-right" title = "Confirm return"> </span>
 							<% end %>
 						<% elsif owner_should_check?(@item) %>
-
 							  <a href="" data-toggle="modal" data-target="#myModalConfirmRental"><span class="glyphicon glyphicon-ok-circle toolBtn pull-right" title = "Confirm rental"> </span></a>
 							  <%= render 'confirmRentalModal', {item: @item, tenant: u} %>
-
-
-
 							<%= link_to force_unsubscribe_path(:tenant_id => u.id, :item_id => @item.id), controller: 'item', action: 'force_unsubscribe', method: :put, data: {confirm: "Remove this user from waiting list? (Don't worry, we won't tell him)"} do %>
 							  <span class="glyphicon glyphicon-trash toolBtn pull-right" title = "Remove from list"> </span>
 							<% end %>

@@ -103,13 +103,12 @@
             <% all_groups.each do |g| %>
             <div class="col-md-9 groupPage" style="display: none;" tagName="<%= g.name %>">
                 <h1 style="text-align: center; margin-top: 0;"><%= g.name %>
-                <%= link_to group_path(:group_id => g.id), controller: 'groups', action: 'show', method: :get do %>
-                  <span class="glyphicon glyphicon-cog toolBtn" title = "Manage Group"> </span>
-                <% end %>
+                  <%= link_to group_path(:group_id => g.id), controller: 'groups', action: 'show', method: :get do %>
+                    <span class="glyphicon glyphicon-cog toolBtn" title = "Manage Group"> </span>
+                  <% end %>
                 </h1>
                 <hr>
                 <% g.items.reverse_each do |i| %>
-
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail" title="<%= i.title %>">
                             <%= image_tag attachment_url(i, :post_image, :fill, 320, 150, format: "jpg") %>

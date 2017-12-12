@@ -1,7 +1,68 @@
 <div class="avoidNav">
 
-<%= link_to destroy_group_path(:group_id => @group.id), controller: 'groups', action: 'destroy', method: :delete, data: {confirm: 'Delete this group?'} do %>
-  <span class="glyphicon glyphicon-trash toolBtn" title = "Delete file"> </span>
+<!-- BEGIN ADMIN PANEL -->
+<div class="container">
+	<div class="row">
+	  <div class="col-xs-12" style="margin-bottom: 20px;">
+	    <h1 class="text-center">Dashboard</h1>
+	      <table border=2 class="text-center" style="width:100%;">
+	          <tr>
+	              <td>Total group members</td>
+	              <td>Post number</td>
+	              <td>Manager number</td>
+	          </tr>
+	          <tr>
+	              <td><%= @group.users.length %></td>
+	              <td><%= @group.items.length %></td>
+	              <td><%= @group.manager_ids.length %></td>
+	          </tr>
+	      </table>
+	  </div>
+	  <div class="col-xs-6">
+	    <div class="thumbnail text-center" style="height: 60vh; overflow-y: scroll;">
+	    	<h1>Group Managers:</h1>
+	    	<% @group.users.each do |u| %>
+		    	<% if @group.manager_ids.include?(u.id) %>
+		    		<h3><%= u.user_name %></h3>
+		    		<h5>Phone: <%= u.phone %></h5>
+		    		<h5>Email: <%= u.email %></h5>
+		    	<% end %>
+	    	<% end %>
+	    </div>
+	  </div>
+	  <div class="col-xs-6">
+	    <div class="thumbnail text-center" style="height: 60vh; overflow-y: scroll;">
+    	<h1>Group Members:</h1>
+	    <!-- <div class="row"> -->
+	    	<% @group.users.each do |u| %>
+	    		<h2 style="margin: 0;"><%= u.user_name %>
+	    		<% if @group.manager_ids.include?(current_user.id) %>
+    			<% if u.id != current_user.id && !@group.manager_ids.include?(u.id) %>
+	    			<%= link_to add_manager_path(:user_id => u.id, :group_id => @group.id), controller: 'group', action: 'add_manager', method: :put, data: {confirm: "Add #{u.user_name} as a manager of this group?"} do %>
+					  <span class="glyphicon glyphicon-eye-open toolBtn" title = "Upgrade to manager" style="color: green;"></span>
+					<% end %>
+					<%= link_to kick_out_path(:user_id => u.id, :group_id => @group.id), controller: 'group', action: 'kick_out', method: :put, data: {confirm: "Kick #{u.user_name} out of this group? THE ITEMS HE POSTED WILL ALSO BE DESTROYED"} do %>
+					  <span class="glyphicon glyphicon-fire toolBtn" title = "Kick out this guy" style="color: red;"></span>
+					<% end %>
+				<% elsif u.id != current_user.id && @group.manager_ids.include?(u.id) && @group.manager_ids[0] != u.id %>
+					<%= link_to remove_manager_path(:user_id => u.id, :group_id => @group.id), controller: 'group', action: 'remove_manager', method: :put, data: {confirm: "Remove #{u.user_name} from manager team?"} do %>
+					  <span class="glyphicon glyphicon-eye-close toolBtn" title = "Remove from management group"></span>
+					<% end %>
+				<% end %>
+				<% end %>
+	    		</h2>
+	    	<% end %>
+	    <!-- </div> -->
+	    </div>
+	  </div>
+    </div>
+</div>
+<!-- END ADMIN PANEL -->
+
+<% if current_user.id == @group.manager_ids[0] %>
+<%= link_to destroy_group_path(:group_id => @group.id), controller: 'groups', action: 'destroy', method: :delete, data: {confirm: 'ARE YOU SURE you want to delete this group?'} do %>
+  <span class="glyphicon glyphicon-trash toolBtn pull-right" title = "Delete file"> </span>
+<% end %>
 <% end %>
 
 </div>

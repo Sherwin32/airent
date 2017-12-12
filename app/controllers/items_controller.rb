@@ -95,6 +95,20 @@ class ItemsController < ApplicationController
 		redirect_to item_path(@item.id)
 	end
 
+	def destroy
+		@item = Item.find(params[:item_id])
+		if current_user.id == @item.owner_id
+			flash[:notice] = "Removed #{@item.title}"
+			@item.destroy
+			redirect_to user_path(current_user.id)
+			return
+		else
+			flash[:error] = "Oops! Something went wrong."
+		end
+		redirect_to root_path
+	end
+
+
 	private
   def item_params
     params.require(:item).permit(:title, :description, :price, :post_image)

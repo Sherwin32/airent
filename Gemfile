@@ -5,6 +5,9 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+# for deploying the app on heroku
+gem 'rails_12factor', group: :production
+
 # http://www.adamscott.io/blog/2014/01/21/renaming-a-ruby-on-rails-application/
 gem "rename"
 

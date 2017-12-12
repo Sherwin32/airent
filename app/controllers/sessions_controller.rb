@@ -6,14 +6,12 @@ class SessionsController < ApplicationController
 
   def create
     user_params = params.require(:user).permit(:user_name, :password)
-    puts "user_params #{user_params}"
     @user = User.confirm(user_params)
     if @user
       login (@user)
       flash[:notice]="Successfully logged in."
       redirect_to @user
     else
-      puts @user.errors.messages
       flash[:error] = "Incorrect username or password."
       redirect_to login_path
     end

@@ -315,9 +315,7 @@
                     e.preventDefault()
                     hideAll()
                     var tagName = $(this).attr("tagName")
-                    console.log(tagName)
                     $(`.groupPage[tagName='${tagName}']`).show()
-                    console.log(`.groupPage[tagName='${tagName}']`)
                 }
                 function hideAll(){
                     $(`.groupPage`).hide()

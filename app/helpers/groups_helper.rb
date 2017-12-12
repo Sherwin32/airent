@@ -66,4 +66,19 @@ module GroupsHelper
 		end
 		redirect_to group_path(@group.id)
 	end
+
+	# change passcode for a group, not user password
+	def change_passcode
+		@group = Group.find(params[:group_id])
+		new_passcode = params.require(:group).permit(:passcode)
+		if @group.manager_ids.include?(current_user.id)
+			@group.update(new_passcode)
+			flash[:notice] = "Passcode changed."
+		else
+			flash[:error] = "Something went wrong!"
+			redirect_to root_path
+			return
+		end
+		redirect_to group_path(@group.id)
+	end
 end

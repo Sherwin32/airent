@@ -2,6 +2,11 @@
 <div class="row">
 	<div class="col-sm-5 col-lg-5 col-md-5 thumbnail">
 		<%= image_tag attachment_url(@item, :post_image, :fit, 600, 600, format: "jpg", fallback: "Failed to load image") %>
+		<h2>Owner Info: </h2>
+		<h3>
+			Phone: <%= item_owner(@item.owner_id).phone %><br>
+			Email: <%= item_owner(@item.owner_id).email %>
+		</h3>
 	</div>
 	<div class="col-sm-4 col-lg-4 col-md-4" style="padding: 0 20px 0 20px">
 		<div class="thumbnail">
@@ -38,6 +43,11 @@
 						<% end %>
 					<% end %>
 					</div>
+					<% if is_owner?(@item) %>
+					<div class="col-xs-12">
+						<p style="margin: 0 0 0 10px;">phone: <%= u.phone %></p>
+					</div>
+					<% end %>
 				</div>
 				<% end %>
 			<% end %>

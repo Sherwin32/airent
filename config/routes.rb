@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 	put '/group/:group_id/add_manager/:user_id', to: 'groups#add_manager', as: 'add_manager'
 	put '/group/:group_id/remove_manager/:user_id', to: 'groups#remove_manager', as: 'remove_manager'
 	put '/group/:group_id/kick_out/:user_id', to: 'groups#kick_out', as: 'kick_out'
+	put '/group/:group_id/change_passcode', to: 'groups#change_passcode', as: 'change_passcode'
 
 	post '/item/create', to: 'items#create', as: 'create_item'
 	get '/item/:item_id', to: 'items#show', as: 'item'

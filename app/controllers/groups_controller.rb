@@ -1,10 +1,5 @@
 class GroupsController < ApplicationController
-
-	# def test_get_groups
-	# 	respond_to do |format|
-	#       format.json {render :json => {:groups => current_user.groups}}
-	#     end
-	# end
+	before_action :prevent_hack
 
 	def show
 		@group = Group.find(params[:group_id])
@@ -49,7 +44,6 @@ class GroupsController < ApplicationController
 			redirect_to user_path(current_user.id)
 		end
 	end
-
 
 	private
   def group_params

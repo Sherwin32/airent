@@ -1,4 +1,5 @@
 class ItemsController < ApplicationController
+	before_action :prevent_hack
 	def create
 		new_item = Item.new(item_params)
 		new_item.owner_id = current_user.id

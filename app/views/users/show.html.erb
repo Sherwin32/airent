@@ -44,7 +44,7 @@
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail" title="<%= i.title %>">
                           <div style="height:150px">
-                            <%= image_tag attachment_url(i, :post_image, :fill, 320, 150, format: "jpg") %>
+                            <%= attachment_image_tag(i, :post_image, :fill, 320, 150, format: "jpg") %>
                           </div>
                             <div class="caption">
                                 <h4 class="pull-right">$<%= i.price %> /day</h4>
@@ -114,7 +114,7 @@
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail" title="<%= i.title %>">
                             <div style="height:150px">
-                            <%= image_tag attachment_url(i, :post_image, :fill, 320, 150, format: "jpg") %>
+                            <%= attachment_image_tag(i, :post_image, :fill, 320, 150, format: "jpg") %>
                             </div>
                             <div class="caption">
                                 <h4 class="pull-right">$<%= i.price %> /day</h4>
@@ -181,7 +181,7 @@
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail" title="<%= i.title %>">
                             <div style="height:150px">
-                            <%= image_tag attachment_url(i, :post_image, :fill, 320, 150, format: "jpg") %>
+                            <%= attachment_image_tag(i, :post_image, :fill, 320, 150, format: "jpg") %>
                             </div>
                             <div class="caption">
                                 <h4 class="pull-right">$<%= i.price %> /day</h4>
@@ -251,7 +251,7 @@
                   <% end %>
                         <div class="thumbnail" title="<%= i.title %>">
                             <div style="height:150px">
-                            <%= image_tag attachment_url(i, :post_image, :fill, 320, 150, format: "jpg") %>
+                            <%= attachment_image_tag(i, :post_image, :fill, 320, 150, format: "jpg") %>
                             </div>
                             <div class="caption">
                                 <h4 class="pull-right">$<%= i.price %> /day</h4>

@@ -1,7 +1,7 @@
 <div class="container avoidNav">
 <div class="row">
 	<div class="col-sm-5 col-lg-5 col-md-5 thumbnail">
-		<%= image_tag attachment_url(@item, :post_image, :fit, 600, 600, format: "jpg", fallback: "Failed to load image") %>
+		<%= attachment_image_tag(@item, :post_image, :fit, 600, 600, format: "jpg", fallback: "Failed to load image") %>
 		<h2>Owner Info: </h2>
 		<h3>
 			Phone: <%= item_owner(@item.owner_id).phone %><br>

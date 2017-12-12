@@ -20,8 +20,8 @@ class GroupsController < ApplicationController
 
 	def join
 		join_group = Group.find_by({:name => group_params[:name]})
-		has_group = join_group != nil
-		has_correct_passcode = join_group.passcode == group_params[:passcode] 
+		has_group = (join_group != nil)
+		join_group != nil ? has_correct_passcode = join_group.passcode == group_params[:passcode] : has_correct_passcode = false
 		if has_group && has_correct_passcode
 			if current_user.groups.include?(join_group)
 				flash[:notice] = "You're already inside group #{join_group.name}!"
@@ -30,10 +30,11 @@ class GroupsController < ApplicationController
 			end	
 			join_group.users << current_user
       flash[:success] = "Joined group: #{join_group.name}!"
+      redirect_to user_path(current_user.id)
     else
-      flash[:error] = "Cannot find group name #{group_params[:name]} or incorrect passcode!"
+      flash[:error] = "Cannot find group name #{group_params[:name]} or incorrect passcode! (note that group names are case sensitive)"
+	    redirect_to user_path(current_user.id)
     end
-    redirect_to user_path(current_user.id)
 	end
 
 	def destroy

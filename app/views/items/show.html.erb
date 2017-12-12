@@ -54,7 +54,9 @@
 		</div>
 	</div>
 </div>
-<%= link_to destroy_item_path(:item_id => @item.id), controller: 'items', action: 'destroy', method: :delete, data: {confirm: 'ARE YOU SURE you want to delete this post?'} do %>
-  <span class="glyphicon glyphicon-trash toolBtn" title = "Delete post"> </span>
+	<% if current_user.id == @item.owner_id %>
+		<%= link_to destroy_item_path(:item_id => @item.id), controller: 'items', action: 'destroy', method: :delete, data: {confirm: 'ARE YOU SURE you want to delete this post?'} do %>
+		  <span class="glyphicon glyphicon-trash toolBtn" title = "Delete post"> </span>
+	<% end %>
 <% end %>
 </div>

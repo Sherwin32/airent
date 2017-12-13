@@ -70,7 +70,7 @@
           <div class="modal-body">
               <%= form_with scope: :user, url: login_path, method: "post" do |f| %>
               <div>
-                <%= f.text_field :user_name, placeholder: "Username" %>
+                <%= f.text_field :user_name, placeholder: "Username", :autofocus => true  %>
               </div>
               <div>
                 <%= f.password_field :password, placeholder: "Password", style: "margin-top: 2%;" %>

@@ -1,4 +1,4 @@
-# README
+# AIRENT
 Airent allows users to rent out everything they want in trusted groups. Users can create groups, join groups, and post their items in the groups. A group creator can assign other members as group managers who have the power to manage group passcode and kick unbehaved members out of the group.
 
 # MVP Goals

@@ -15,7 +15,6 @@ Users will be able to:
 # Reach Goals
 - action mailer that sends notifications to tenants and owners
 - online payment system
-- deploy the app on AWS ElasticBeanstalk
 - review and rating system
 
 # Ruby version
@@ -23,6 +22,9 @@ Users will be able to:
 
 # Airent on Heroku
 (https://airent.herokuapp.com/)
+
+# Airent on AWS
+(http://airent-dev3.us-west-2.elasticbeanstalk.com/)
 
 # Technologies Used
 Ruby on Rails, HTML/CSS, Bootstrap, Javascript

@@ -25,6 +25,7 @@ Users will be able to:
 
 # Airent on AWS
 (http://airent-dev3.us-west-2.elasticbeanstalk.com/)
+Currently closed.
 
 # Technologies Used
 Ruby on Rails, HTML/CSS, Bootstrap, Javascript
